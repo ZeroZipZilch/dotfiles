@@ -1,0 +1,28 @@
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[user]
+	email = mohammad.el.omar@hiq.se
+	name = Mohammad El Omar
+[core]
+	excludesfile = ~/.gitignore
+	editor = vim
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[commit]
+	template = /Users/mohammadelomar/.stCommitMsg
+[init]
+	defaultBranch = master
+[alias]
+	amend = commit --amend 
+	logg = log --graph --all --decorate
+[pull]
+	rebase = false
+
+

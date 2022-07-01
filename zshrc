@@ -1,14 +1,28 @@
 #ZSH
+source /opt/homebrew/share/antigen/antigen.zsh
+
+antigen use oh-my-zsh
+
+antigen theme arialdomartini/oh-my-git-themes oppa-lana-style
+
+antigen bundle git
+antigen bundle npm
+antigen bundle encode64
+antigen bundle colorize
+antigen bundle github
+antigen bundle brew
+antigen bundle macos
+
+antigen bundle arialdomartini/oh-my-git
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-autosuggestions
+
+antigen apply
+
+export HISTSIZE=100000
 export ZSH=$HOME/.oh-my-zsh
 
 source $ZSH/oh-my-zsh.sh
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-plugins=(
-  git 
-  macos
-)
 
 # Functions
 
@@ -35,7 +49,7 @@ degit () {
 alias gs='git status'
 alias cat='bat'
 alias ping='prettyping --nolegend'
-alias top='sudo htop'
+alias top='btm'
 alias zshconfig="code ~/.zshrc"
 alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
 alias rm="trash"
@@ -47,13 +61,16 @@ alias slinkp="pbpaste && pbpaste | xargs xcrun simctl openurl booted"
 alias haste="pbpaste | haste | pbcopy"
 
 # Gitgud
-source ~/Documents/Code/dotfiles/scripts/gitgud.sh
+# source ~/dotfiles/scripts/gitgud.sh
 
 # Pure prompt
+fpath+=$HOME/.zsh/pure
 autoload -U promptinit; promptinit
 prompt pure
+
 zstyle :prompt:pure:git:stash show yes
 PURE_GIT_STASH_SYMBOL=🗄
+RPROMPT='%{$reset_color%}%T %{$fg_bold[white]%}%{$reset_color%}'
 
 # Autojump
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
@@ -69,26 +86,15 @@ if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
 
-# GO install env
-export PATH=$PATH:/$HOME/go/bin/
-
-# React Native, Android related exports
-export ANDROID_HOME=$HOME/Library/Android/sdk
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-
-# Haste
-export HASTE_SERVER="https://paste.dudek.dev/"
-
-# Mongod
-export PATH="/usr/local/opt/mongodb-community@4.4/bin:$PATH"
-
 # Python version manager
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
-## macOS
+# macOS
 defaults write com.apple.dt.Xcode ShowBuildOperationDuration YES
+
+# Tmux
+if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+	tmux a || tmux
+fi

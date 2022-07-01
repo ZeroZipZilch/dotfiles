@@ -4,7 +4,9 @@
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # homebrew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/instl.sh)"
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/mohammadel/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"
 brew bundle --file ${BASEDIR}/Brewfile
 
 # Update submodules
@@ -25,12 +27,12 @@ ln -fs ${BASEDIR}/gitignore ~/.gitignore
 ln -fs ${BASEDIR}/tmux.conf ~/.tmux.conf
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
-# Karabiner Elements
-mkdir -p ~/.config/karabiner
-ln -fs ${BASEDIR}/karabiner.json ~/.config/karabiner/karabiner.json 
-
 # Kitty
 ln -fs ${BASEDIR}/kitty ~/.config/
 
+# Pure Prompt
+mkdir -p "$HOME/.zsh"
+git clone https://github.com/sindresorhus/pure.git "$HOME/.zsh/pure"
+
 # NPM global scripts
-npm i -g trash-cli pure-prompt
+npm i -g trash-cli
