@@ -98,3 +98,7 @@ defaults write com.apple.dt.Xcode ShowBuildOperationDuration YES
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
 	tmux a || tmux
 fi
+
+# SSH
+eval "$(ssh-agent -s)"
+ssh-add --apple-load-keychain
